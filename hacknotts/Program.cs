@@ -76,7 +76,7 @@ namespace hacknotts
 
             IMongoDatabase db = client.GetDatabase("bear_witness");
 
-            var collection = db.GetCollection<BsonDocument>("bear_witness");
+            var collection = db.GetCollection<BsonDocument>("user_info");
 
             using (IAsyncCursor<BsonDocument> cursor = await collection.FindAsync(new BsonDocument()))
             {
