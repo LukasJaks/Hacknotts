@@ -41,6 +41,7 @@ namespace hacknotts
                 "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
             );
             var database = client.GetDatabase("test");
+            Console.WriteLine(database);
         }
 
         public void sortData(List<Data> data)
