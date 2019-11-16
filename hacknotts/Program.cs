@@ -1,10 +1,9 @@
 ﻿using System;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
-using MongoDB;
-using MongoDB.Driver;
-using MongoDB.Bson.Serialization;
 using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace hacknotts
 {
@@ -14,7 +13,8 @@ namespace hacknotts
         {
             //main heree
             Console.WriteLine("start____");
-            twilioSet();
+            //twilioSet();
+            connectDB();
             Console.WriteLine("done");
         }
 
@@ -34,13 +34,29 @@ namespace hacknotts
             Console.WriteLine(message.Sid);
         }
 
-        public void connectDB()
+        public static void connectDB()
         {
-
+            // ...
+            var client = new MongoClient(
+                "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
+            );
+            var database = client.GetDatabase("test");
         }
 
         public void sortData(List<Data> data)
         {
+            /*
+             *mon
+             *tue
+             *wen
+             *thu
+             *fri
+             *sat
+             *san
+             * 
+             */
+
+
             for(int i = 0; i < data.Count; i++)
             {
 
