@@ -4,6 +4,7 @@ using Twilio.Rest.Api.V2010.Account;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Threading.Tasks;
 
 namespace hacknotts
 {
@@ -14,7 +15,9 @@ namespace hacknotts
             //main heree
             Console.WriteLine("start____");
             //twilioSet();
-            connectDB();
+            //connectDB();
+            Task task = MainAsync();
+            task.Wait();
             Console.WriteLine("done");
         }
 
@@ -40,7 +43,7 @@ namespace hacknotts
             var client = new MongoClient(
                 "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
             );
-            var database = client.GetDatabase("test");
+            var database = client.GetDatabase("bear_witness");
             Console.WriteLine(database);
         }
 
@@ -63,7 +66,35 @@ namespace hacknotts
 
             }
         }
+
+        public static async Task MainAsync()
+        {
+            var client = new MongoClient(
+                "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
+                );
+
+            IMongoDatabase db = client.GetDatabase("school");
+
+            var collection = db.GetCollection<BsonDocument>("students");
+
+            using (IAsyncCursor<BsonDocument> cursor = await collection.FindAsync(new BsonDocument()))
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    IEnumerable<BsonDocument> batch = cursor.Current;
+                    foreach (BsonDocument document in batch)
+                    {
+                        Console.WriteLine(document);
+                        Console.WriteLine();
+                    }
+                }
+            }
+        }
+
     }
+
+
+    
 
     public class Data
     {
