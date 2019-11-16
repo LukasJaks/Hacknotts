@@ -69,7 +69,7 @@ namespace hacknotts
 
         public static async Task MainAsync()
         {
-            Console.WriteLine("connectoing");
+            Console.WriteLine("connecting");
             var client = new MongoClient(
                 "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
                 );
