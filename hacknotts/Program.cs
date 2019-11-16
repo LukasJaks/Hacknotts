@@ -74,9 +74,9 @@ namespace hacknotts
                 "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
                 );
 
-            IMongoDatabase db = client.GetDatabase("school");
+            IMongoDatabase db = client.GetDatabase("bear_witness");
 
-            var collection = db.GetCollection<BsonDocument>("students");
+            var collection = db.GetCollection<BsonDocument>("bear_witness");
 
             using (IAsyncCursor<BsonDocument> cursor = await collection.FindAsync(new BsonDocument()))
             {
