@@ -17,12 +17,27 @@ namespace hacknotts
             Console.WriteLine("start____");
             //twilioSet();
             //connectDB();
-            Task task = MainAsync();
-            task.Wait();
-            Console.WriteLine("done");
+            runDataServer();
+            //task.Wait();
+            Console.WriteLine("Waiting for event");
+
+
         }
 
-        public static void twilioSet()
+        public static void runDataServer()
+        {
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(5);
+            Console.WriteLine("counting");
+            var timer = new System.Threading.Timer((e) =>
+            {
+                Task task = MainAsync();
+                task.Wait();
+                runDataServer();
+            }, null, startTimeSpan, periodTimeSpan);
+        }
+
+        public static void twilioSet(string num)
         {
             const string accountSid = "AC560021b214c33c95763bf9dcec0218d8";
             const string authToken = "91000834d15e73cdc35852b516f6cbfd";
@@ -30,7 +45,7 @@ namespace hacknotts
             TwilioClient.Init(accountSid, authToken);
 
             var message = MessageResource.Create(
-            body: "aaaaaaaaa, it might work",
+            body: "aaaaaaaaa, go work out",
             from: new Twilio.Types.PhoneNumber("+12562429687"),
             to: new Twilio.Types.PhoneNumber("+447308157502")
         );
@@ -50,9 +65,24 @@ namespace hacknotts
 
         public List<Data> timetable = new List<Data>();
         
-        public void sortData(List<Data> data)
+        public static void sortData(List<Data> data)
         {
-            
+            string time = DateTime.Now.ToString("h:mm tt");
+            time = time.Replace(":", "");
+            string[] days = { "Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat" };
+            DateTime ClockInfoFromSystem = DateTime.Now;
+            string currDay = days[(int)ClockInfoFromSystem.DayOfWeek];
+
+
+            for (int i = 0; i < dataToSave.Count; i++)
+            {
+                for(int x = 0; x < dataToSave[i].day.Count; x++)
+                {
+                    if (currDay == dataToSave[i].day[x])
+                        if (time == dataToSave[i].time[x])
+                            twilioSet(dataToSave[i].phoneNum);
+                }
+            }
         }
 
         public static List<Data> dataToSave = new List<Data>();
@@ -78,10 +108,6 @@ namespace hacknotts
                     {
                         try
                         {
-                            Console.WriteLine(document);
-                            Console.WriteLine(document);
-
-
                             Data account = JsonConvert.DeserializeObject<Data>(JsonConvert.SerializeObject(BsonTypeMapper.MapToDotNetValue(document)));
 
                             dataToSave.Add(account);
@@ -89,10 +115,7 @@ namespace hacknotts
                         catch(Exception ex) { }
                     }
 
-                    for(int i = 0; i < dataToSave.Count; i++)
-                    {
-                        Console.WriteLine(dataToSave[i].ToString());
-                    }
+                    sortData(dataToSave);
                 }
             }
         }
@@ -107,6 +130,6 @@ namespace hacknotts
         public string phoneNum { get; set; }
         public List<string> sport {get;set;}
         public List<string> day { get; set; }
-        public string time { get; set; }
+        public List<string> time { get; set; }
     }
 }
