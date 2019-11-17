@@ -55,6 +55,8 @@ namespace hacknotts
             
         }
 
+        public List<Data> data = new List<Data>();
+
         public static async Task MainAsync()
         {
             Console.WriteLine("connecting");
@@ -74,8 +76,14 @@ namespace hacknotts
                     foreach (BsonDocument document in batch)
                     {
                         Console.WriteLine(document);
-                        Data data = JsonConvert.DeserializeObject<Data>(document.ToJson());
-                        Console.WriteLine(data.name);
+                        Console.WriteLine(document);
+                        
+
+                        Data account = JsonConvert.DeserializeObject<Data>(JsonConvert.SerializeObject(BsonTypeMapper.MapToDotNetValue(document)));
+
+                        Console.WriteLine(account.name);
+                        //{ "_id" : ObjectId("5dd10f7a0518f2085f442cfa"), "name" : "hj", "age" : "67", "phone" : "675", "sport" : ["vhg"], "d
+                        //ay" : ["vhj"], "time" : ["04:04"] }
                     }
                 }
             }
