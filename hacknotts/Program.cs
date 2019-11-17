@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace hacknotts
 {
@@ -47,24 +48,11 @@ namespace hacknotts
             Console.WriteLine(database);
         }
 
+        public List<Data> timetable = new List<Data>();
+        
         public void sortData(List<Data> data)
         {
-            /*
-             *mon
-             *tue
-             *wen
-             *thu
-             *fri
-             *sat
-             *san
-             * 
-             */
-
-
-            for(int i = 0; i < data.Count; i++)
-            {
-
-            }
+            
         }
 
         public static async Task MainAsync()
@@ -86,21 +74,21 @@ namespace hacknotts
                     foreach (BsonDocument document in batch)
                     {
                         Console.WriteLine(document);
-                        Console.WriteLine();
+                        Data data = JsonConvert.DeserializeObject<Data>(document.ToJson());
+                        Console.WriteLine(data.name);
                     }
                 }
             }
         }
-
     }
-
-
-    
 
     public class Data
     {
-        public string id { get; set; }
-        public string whatever { get; set; }
-        public int whateverelse { get; set; }
+        public string name { get; set; }
+        public string age { get; set; }
+        public string phoneNum { get; set; }
+        public List<string> sport {get;set;}
+        public List<string> day { get; set; }
+        public string time { get; set; }
     }
 }
