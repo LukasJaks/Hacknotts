@@ -21,7 +21,8 @@ namespace hacknotts
             //task.Wait();
             Console.WriteLine("Waiting for event");
 
-
+            while(true)
+            { /* non stoping app */}
         }
 
         public static void runDataServer()
