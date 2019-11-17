@@ -13,6 +13,7 @@ namespace hacknotts
     {
         static void Main(string[] args)
         {
+            twilioSet("+447308157502");
             //main heree
             Console.WriteLine("start____");
             //twilioSet();
@@ -50,7 +51,7 @@ namespace hacknotts
             var message = MessageResource.Create(
             body: "aaaaaaaaa, go work out",
             from: new Twilio.Types.PhoneNumber("+12562429687"),
-            to: new Twilio.Types.PhoneNumber("+447308157502")
+            to: new Twilio.Types.PhoneNumber(num)
         );
 
             Console.WriteLine(message.Sid);
