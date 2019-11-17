@@ -55,10 +55,11 @@ namespace hacknotts
             
         }
 
-        public List<Data> data = new List<Data>();
+        public static List<Data> dataToSave = new List<Data>();
 
         public static async Task MainAsync()
         {
+            dataToSave.Clear();
             Console.WriteLine("connecting");
             var client = new MongoClient(
                 "mongodb+srv://lukas:lukas@cluster0-mk0rz.gcp.mongodb.net/test?retryWrites=true&w=majority"
@@ -75,19 +76,28 @@ namespace hacknotts
                     IEnumerable<BsonDocument> batch = cursor.Current;
                     foreach (BsonDocument document in batch)
                     {
-                        Console.WriteLine(document);
-                        Console.WriteLine(document);
-                        
+                        try
+                        {
+                            Console.WriteLine(document);
+                            Console.WriteLine(document);
 
-                        Data account = JsonConvert.DeserializeObject<Data>(JsonConvert.SerializeObject(BsonTypeMapper.MapToDotNetValue(document)));
 
-                        Console.WriteLine(account.name);
-                        //{ "_id" : ObjectId("5dd10f7a0518f2085f442cfa"), "name" : "hj", "age" : "67", "phone" : "675", "sport" : ["vhg"], "d
-                        //ay" : ["vhj"], "time" : ["04:04"] }
+                            Data account = JsonConvert.DeserializeObject<Data>(JsonConvert.SerializeObject(BsonTypeMapper.MapToDotNetValue(document)));
+
+                            dataToSave.Add(account);
+                        }
+                        catch(Exception ex) { }
+                    }
+
+                    for(int i = 0; i < dataToSave.Count; i++)
+                    {
+                        Console.WriteLine(dataToSave[i].ToString());
                     }
                 }
             }
         }
+
+
     }
 
     public class Data
