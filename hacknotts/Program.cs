@@ -22,9 +22,9 @@ namespace hacknotts
             task.Wait();
             //task.Wait();
             Console.WriteLine("Waiting for event");
-
-            while(false)
-            { /* non stoping app */}
+            
+            //while(false)
+            //{ /* non stoping app */}
         }
 
         public static void runDataServer()
@@ -121,7 +121,7 @@ namespace hacknotts
                     sortData(dataToSave);
                 }
             }
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(300000);
             Task task = MainAsync();
             task.Wait();
         }
