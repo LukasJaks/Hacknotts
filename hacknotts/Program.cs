@@ -17,11 +17,13 @@ namespace hacknotts
             Console.WriteLine("start____");
             //twilioSet();
             //connectDB();
-            runDataServer();
+            //runDataServer();
+            Task task = MainAsync();
+            task.Wait();
             //task.Wait();
             Console.WriteLine("Waiting for event");
 
-            while(true)
+            while(false)
             { /* non stoping app */}
         }
 
@@ -119,6 +121,9 @@ namespace hacknotts
                     sortData(dataToSave);
                 }
             }
+            System.Threading.Thread.Sleep(5000);
+            Task task = MainAsync();
+            task.Wait();
         }
 
 
