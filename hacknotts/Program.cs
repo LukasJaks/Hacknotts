@@ -15,7 +15,7 @@ namespace hacknotts
         {
             //main heree
             twilioSet("+447466884901");
-            Console.WriteLine("start____");
+            Console.WriteLine("start____e");
             //twilioSet();
             //connectDB();
             //runDataServer();
